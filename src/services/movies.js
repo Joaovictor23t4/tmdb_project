@@ -20,6 +20,16 @@ class MoviesService {
             return { error };
         };
     };
+
+    async getMovie(id) {
+        try {
+            const { data } = await api.get(`/movie/${id}`);
+            return data;
+        } catch(error) {
+            console.error('Error in GET movie: ', error);
+            return { error };
+        };
+    };
 };
 
 export default new MoviesService();

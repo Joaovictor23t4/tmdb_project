@@ -68,6 +68,7 @@ li {
 li > a {
     color: #FDFDFD;
     text-decoration: none;
+    transition: .2s;
 }
 
 li > a:hover {
