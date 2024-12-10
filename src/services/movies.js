@@ -3,7 +3,7 @@ import { api } from "@/plugins/axios";
 class MoviesService {
     async getGenresMovies() {
         try {
-            const { data } = await api.get('genre/movie/list?language=pt-BR');
+            const { data } = await api.get('genre/movie/list?language=en-US');
             return data;
         } catch(error) {
             console.error('Error in GET movies: ', error);
@@ -23,7 +23,7 @@ class MoviesService {
 
     async getMovie(id) {
         try {
-            const { data } = await api.get(`/movie/${id}`);
+            const { data } = await api.get(`movie/${id}`);
             return data;
         } catch(error) {
             console.error('Error in GET movie: ', error);

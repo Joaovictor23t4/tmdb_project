@@ -34,5 +34,13 @@ export const useMoviesStore = defineStore('movies', () => {
         await getMovie(movies.value.results[0].id);
     };
 
-    return { genreMovies, movies, movie, getGenresMovies, initializeApp }
+    function searchGenreName(id) {
+        for (let genre of genreMovies.value.genres) {
+            if (genre.id == id) {
+                return genre.name
+            }
+        }
+    }
+
+    return { genreMovies, movies, movie, getGenresMovies, initializeApp, searchGenreName }
 });

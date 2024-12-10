@@ -1,16 +1,27 @@
 <script setup>
 import { onMounted } from "vue";
-import { useMoviesStore } from "@/stores";
-import { BannerTop } from "@/components";
+import { useMoviesStore, useProgramTvStore } from "@/stores";
+import { BannerTop, ListEntertainement } from "@/components";
 
 const moviesStore = useMoviesStore();
+const programsTvStore = useProgramTvStore();
 
 onMounted(async() => {
   await moviesStore.initializeApp();
-  console.log(moviesStore.movie);
+  await programsTvStore.initializeApp();
 });
 </script>
 
 <template>
   <BannerTop v-if="Object.keys(moviesStore.movie).length > 0" :data-movies="moviesStore.movies.results" :data-movie-banner="moviesStore.movie" />
+  <div class="container-last-content">
+    <ListEntertainement v-if="Object.keys(moviesStore.movies).length > 0" :list-content="moviesStore.movies.results.slice(0, 8)" />
+    <ListEntertainement v-if="Object.keys(programsTvStore.programsTv).length > 0" :list-content="programsTvStore.programsTv.results.slice(0, 8)" />
+  </div>
 </template>
+
+<style scoped>
+.container-last-content {
+  margin: 5rem 0;
+}
+</style>

@@ -1,5 +1,7 @@
 import MoviesService from "@/services/movies";
+import ProgramsTvService from "@/services/programsTv";
 
 export {
-    MoviesService
+    MoviesService,
+    ProgramsTvService
 };
