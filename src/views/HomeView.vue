@@ -14,9 +14,9 @@ onMounted(async() => {
 
 <template>
   <BannerTop v-if="Object.keys(moviesStore.movie).length > 0" :data-movies="moviesStore.movies.results" :data-movie-banner="moviesStore.movie" />
-  <div class="container-last-content">
-    <ListEntertainement v-if="Object.keys(moviesStore.movies).length > 0" :list-content="moviesStore.movies.results.slice(0, 8)" />
-    <ListEntertainement v-if="Object.keys(programsTvStore.programsTv).length > 0" :list-content="programsTvStore.programsTv.results.slice(0, 8)" />
+  <div class="container-last-content" v-if="Object.keys(moviesStore.movies).length > 0 && Object.keys(programsTvStore.programsTv).length > 0">
+    <ListEntertainement :list-content="moviesStore.movies.results.slice(0, 8)" type-enterteinement="movies" />
+    <ListEntertainement :list-content="programsTvStore.programsTv.results.slice(0, 8)" type-enterteinement="tv" />
   </div>
 </template>
 
