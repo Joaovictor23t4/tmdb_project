@@ -40,7 +40,7 @@ function createUrlImage(path) {
     width: 100px;
     height: 40px;
     position: relative;
-    right: 25px;
+    right: 78px;
     background: transparent;
     border: 2px solid #FDFDFD;
     border-radius: 25px;
@@ -101,6 +101,12 @@ function createUrlImage(path) {
 
 .container-close-icon > img {
     cursor: pointer;
+}
+
+@media (max-width: 1600px) {
+    .container-button-filter > button {
+        right: 25px;
+    }
 }
 
 @media (max-width: 1440px) {

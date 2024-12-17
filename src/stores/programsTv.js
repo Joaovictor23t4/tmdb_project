@@ -6,6 +6,7 @@ export const useProgramTvStore = defineStore('tv', () => {
     const genresTp = ref([]);
     const programsTv = ref([]);
     const programTv = ref({});
+    const usingGenres = ref([]);
 
     async function getGenresTp() {
         const data = await ProgramsTvService.getGenresTp();
@@ -31,6 +32,15 @@ export const useProgramTvStore = defineStore('tv', () => {
         };
     };
 
+    async function getProgramsTvWithGenres() {
+        const data = await ProgramsTvService.getProgramsTvWithGenres(usingGenres.value);
+        console.log(data);
+
+        if (!("error" in data)) {
+            programsTv.value = data;
+        };
+    };
+
     async function initializeApp() {
         await getGenresTp();
         await getProgramsTv();
@@ -44,5 +54,16 @@ export const useProgramTvStore = defineStore('tv', () => {
         };
     };
 
-    return { genresTp, programsTv, programTv, getGenresTp, getProgramsTv, getProgramTv, initializeApp, searchGenreName };
+    function changeUsingGenres(idGenre) {
+        if (usingGenres.value.includes(idGenre)) {
+            console.log('Include');
+            const index = usingGenres.value.findIndex((genre) => genre.id == idGenre);
+            usingGenres.value.splice(index, 1);
+        } else {
+            usingGenres.value.push(idGenre);
+        };
+        getProgramsTvWithGenres();
+    };
+
+    return { genresTp, programsTv, programTv, getGenresTp, getProgramsTv, getProgramTv, getProgramsTvWithGenres, initializeApp, searchGenreName, changeUsingGenres };
 });

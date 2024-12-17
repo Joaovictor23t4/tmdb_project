@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import { MoviesService } from "@/services";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 export const useMoviesStore = defineStore('movies', () => {
     const genreMovies = ref([]);
     const movies = ref([]);
     const movie = ref({});
+    const usingGenres = ref([]);
 
     async function getGenresMovies() {
         const data = await MoviesService.getGenresMovies();
@@ -28,6 +29,15 @@ export const useMoviesStore = defineStore('movies', () => {
         movie.value = await MoviesService.getMovie(id);
     };
 
+    async function getMoviesWithGenres() {
+        const data = await MoviesService.getMoviesWithGenres(usingGenres.value);
+        console.log(data);
+
+        if (!("error" in data)) {
+            movies.value = data;
+        };
+    };
+
     async function initializeApp() {
         await getGenresMovies();
         await getMovies();
@@ -38,9 +48,20 @@ export const useMoviesStore = defineStore('movies', () => {
         for (let genre of genreMovies.value.genres) {
             if (genre.id == id) {
                 return genre.name
-            }
-        }
-    }
+            };
+        };
+    };
 
-    return { genreMovies, movies, movie, getGenresMovies, initializeApp, searchGenreName }
+    function changeUsingGenres(idGenre) {
+        if (usingGenres.value.includes(idGenre)) {
+            console.log('Include');
+            const index = usingGenres.value.findIndex((genre) => genre.id == idGenre);
+            usingGenres.value.splice(index, 1);
+        } else {
+            usingGenres.value.push(idGenre);
+        };
+        getMoviesWithGenres();
+    };
+
+    return { genreMovies, movies, movie, usingGenres, getGenresMovies, getMoviesWithGenres, initializeApp, searchGenreName, changeUsingGenres }
 });

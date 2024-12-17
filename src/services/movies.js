@@ -1,4 +1,5 @@
 import { api } from "@/plugins/axios";
+import { createGenreQueryParams } from "@/utils";
 
 class MoviesService {
     async getGenresMovies() {
@@ -17,6 +18,18 @@ class MoviesService {
             return data;
         } catch(error) {
             console.error('Error in GET movies: ', error);
+            return { error };
+        };
+    };
+
+    async getMoviesWithGenres(genres = []) {
+        const query = createGenreQueryParams(genres);
+
+        try { 
+            const { data } = await api.get(`discover/movie${query}`);
+            return data;
+        } catch(error) {
+            console.error('Error in GET movies with genres: ', error);
             return { error };
         };
     };

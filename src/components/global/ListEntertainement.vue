@@ -73,7 +73,7 @@ const posterImage = 'https://image.tmdb.org/t/p/w342';
     height: 500px;
     padding: 30px 20px;
     border-radius: 5px;
-    transition: transform 1s;
+    transition: transform .5s;
     transform: scale(1);
     cursor: pointer;
 }

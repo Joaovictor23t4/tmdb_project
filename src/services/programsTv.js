@@ -1,4 +1,5 @@
 import { api } from "@/plugins/axios";
+import { createGenreQueryParams } from "@/utils";
 
 class ProgramsTvService {
     async getGenresTp() {
@@ -16,6 +17,18 @@ class ProgramsTvService {
             return data;
         } catch(error) {
             console.error('Error in GET programs tv: ', error);
+            return { error };
+        };
+    };
+
+    async getProgramsTvWithGenres(genres = []) {
+        const query = createGenreQueryParams(genres);
+
+        try { 
+            const { data } = await api.get(`discover/tv${query}`);
+            return data;
+        } catch(error) {
+            console.error('Error in GET tv programs with genres: ', error);
             return { error };
         };
     };
