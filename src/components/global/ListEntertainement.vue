@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { RatingStars, NameGenres } from '@/components';
+import { RatingStars, NameGenres, FilterContainer } from '@/components';
 const props = defineProps({
     typeEnterteinement: {
         type: String,
@@ -15,18 +15,6 @@ const props = defineProps({
 
 const route = useRoute();
 const posterImage = 'https://image.tmdb.org/t/p/w342';
-
-const showBlackFilter = ref(false);
-
-const whichImgFilter = computed(() => {
-    return showBlackFilter.value ? createUrlImage('@/assets/icons/filter-black.png') : createUrlImage('@/assets/icons/filter-white.png');
-});
-
-function createUrlImage(path) {
-    const url = new URL(path.replace('@', '/src'), import.meta.url).href;
-    console.log(url);
-    return url;
-};
 </script>
 
 <template>
@@ -34,13 +22,7 @@ function createUrlImage(path) {
     <div class="container-center">
         <div class="container-title-filter">
             <h2 class="title">Latest {{ props.typeEnterteinement == 'movies' ? 'Movies' : 'TV Programs' }}</h2>
-            <div class="container-button-filter">
-                <button v-if="route.path !== '/'" @mouseenter="showBlackFilter = true" @mouseleave="showBlackFilter = false" class="button-filter"><img :src="whichImgFilter" class="filter-icon" alt="">Filter</button>
-
-                <div class="container-filter">
-                    <h1>TESTE</h1>
-                </div>
-            </div>
+            <FilterContainer v-if="route.path !== '/'" />
         </div>
         <div class="container-latest-content">
             <div class="container-content" v-for="(content, index) in props.listContent" :style="`background-image: url(${posterImage+content.poster_path})`" :key="index">
@@ -69,55 +51,6 @@ function createUrlImage(path) {
 .container-title-filter {
     display: flex;
     justify-content: space-between;
-}
-
-.container-button-filter {
-    display: flex;
-    flex-direction: column;
-}
-
-.container-button-filter > button {
-    width: 100px;
-    height: 40px;
-    position: relative;
-    right: 55px;
-    background: transparent;
-    border: 2px solid #FDFDFD;
-    border-radius: 25px;
-    color: #FDFDFD;
-    font-size: 1rem;
-    font-weight: bolder;
-    margin-bottom: 1rem;
-    transition: .5s;
-    cursor: pointer
-}
-
-.container-button-filter > button:hover {
-    background-color: #FDFDFD;
-    color: #000;
-}
-
-.button-filter {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    column-gap: 4px;
-}
-
-.container-filter {
-    position: fixed;
-    margin-top: 4rem;
-    right: 5rem;
-    width: 300px;
-    height: 400px;
-    background-color: blue;
-    z-index: 2;
-}   
-
-.filter-icon {
-    width: 16px;
-    position: relative;
-    bottom: 1px;
 }
 
 .title {
@@ -159,15 +92,6 @@ function createUrlImage(path) {
 @media (max-width: 1440px) {
     .container-center {
         padding: 0 10rem;
-    }
-
-    .container-button-filter {
-        position: relative;
-        right: 30px;
-    }
-
-    .container-button-filter > button {
-        right: 0;
     }
 }
 </style>
